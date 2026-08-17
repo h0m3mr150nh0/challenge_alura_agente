@@ -1,10 +1,14 @@
-🤖 NOC Troubleshooting Agent (Gleen) — RAG Avançado com Busca Híbrida
-O NOC Troubleshooting Agent (Gleen) é um assistente virtual baseado em RAG (Retrieval-Augmented Generation) projetado para auxiliar analistas de operações de rede (NOC) no diagnóstico rápido e assertivo de problemas em infraestruturas TCP/IP e roteamento Cisco IOS (OSPF, HSRP, Camada 3).
+# 🤖 NOC Troubleshooting Agent (Gleen) — RAG Avançado com Busca Híbrida
 
-📐 Arquitetura da Solução
-O agente combina Machine Learning Supervisionado na camada de segurança com Search & Retrieval Híbrido e LLMs de última geração, garantindo zero custo adicional de tokens na etapa de busca e eliminação de alucinações.
+O **NOC Troubleshooting Agent (Gleen)** é um assistente virtual baseado em **RAG (Retrieval-Augmented Generation)** projetado para auxiliar analistas de operações de rede (NOC) no diagnóstico rápido e assertivo de problemas em infraestruturas **TCP/IP e roteamento Cisco IOS (OSPF, HSRP, Camada 3)**.
 
-Plaintext
+---
+
+## 📐 Arquitetura da Solução
+
+O agente combina **Machine Learning Supervisionado** na camada de segurança com **Search & Retrieval Híbrido** e **LLMs de última geração**, garantindo zero custo adicional de tokens na etapa de busca e eliminação de alucinações.
+
+```text
 [ Usuário / Streamlit UI ]
            │
            ▼
@@ -26,7 +30,9 @@ Plaintext
            ▼
 [ Resposta Técnica Concisa + Fontes Citadas ]
 
-### Componentes Principais
+```
+
+## Componentes Principais
 
 * **Guardrail de Escopo por ML:** Classificador leve treinado com `scikit-learn` (Pipeline TF-IDF + Naive Bayes) exportado em `.joblib`, validando localmente se a pergunta é sobre redes antes de invocar a LLM.
 * **Memória Conversacional e Contextualização:** Módulo de reescrita usando histórico recente que resolve pronomes vagos ("dele", "deles", "esse comando") para perguntas autônomas.
