@@ -226,13 +226,22 @@ st.title("💬 NOC Troubleshooting Agent")
 
 # Mensagem inicial de boas-vindas para nova conversa
 if not st.session_state.messages:
-  mensagem_inicial = (
-      f"👋 Olá, <b>{user_atual['nome_completo']}</b>! Me chamo Glenn.<br><br>"
-      "Como posso te ajudar no suporte de redes hoje?"
-  )
-  st.session_state.messages = [
-      {"role": "assistant", "content": mensagem_inicial}
-  ]
+    mensagem_inicial = (
+        f"👋 Olá, <b>{user_atual['nome_completo']}</b>! Sou o Gleen, seu assistente virtual de NOC. 🤖<br><br>"
+        "<i>Aviso: Este sistema é um projeto desenvolvido para fins de estudo e pesquisa.</i><br><br>"
+        "Meu escopo de atendimento é focado exclusivamente em <b>Diagnóstico e Troubleshooting de Redes</b>. "
+        "Estou pronto para te ajudar com dúvidas e análises sobre:<br>"
+        "<ul>"
+        "<li><b>Conectividade IP e TCP/IP</b></li>"
+        "<li><b>Roteamento (OSPF, Rotas Estáticas)</b></li>"
+        "<li><b>Protocolos de Redundância (HSRP)</b></li>"
+        "<li><b>Ferramentas de Diagnóstico (Ping, Traceroute, Telnet, Debugs)</b></li>"
+        "</ul>"
+        "Como posso ajudar na sua operação hoje?"
+    )
+    st.session_state.messages = [
+        {"role": "assistant", "content": mensagem_inicial}
+    ]
 
 # Renderização das mensagens do chat
 for msg in st.session_state.messages:

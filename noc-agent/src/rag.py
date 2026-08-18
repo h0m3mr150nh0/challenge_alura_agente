@@ -94,7 +94,18 @@ def validar_escopo_local(pergunta: str) -> bool:
 
 
 def obter_mensagem_fora_escopo() -> str:
-    return '<p>⚠️ <b>Assunto fora do escopo de atendimento</b></p><p>Olá! Desculpa, mas meu escopo de suporte é restrito a <b>Diagnóstico de Redes NOC e OSPF/TCP-IP</b>.</p><p>Não consigo responder a essa pergunta. Estou capacitado para ajudar em:</p><ul><li>🌐 <b>TCP/IP Introduction</b></li><li>🛠️ <b>Tools for Troubleshooting IP Problems</b></li><li>💡 <b>General IP Troubleshooting Theory and Suggestions</b></li><li>🔌 <b>Troubleshooting Basic & Physical IP Connectivity</b></li><li>🔀 <b>Troubleshooting Layer 3 Problems (Routing & OSPF)</b></li><li>🛡️ <b>Troubleshooting Hot Standby Router Protocol (HSRP)</b></li></ul><p><i>Por favor, faça uma pergunta relacionada a um destes tópicos!</i></p>'
+    return (
+        "<p>⚠️ <b>Assunto fora do escopo de atendimento</b></p>"
+        "<p>Olá! Este sistema é um <b>projeto de estudo</b> e, por isso, tem um escopo de atuação estritamente focado em <b>Diagnóstico de Redes NOC</b>.</p>"
+        "<p>Não consigo responder a essa pergunta, mas estou capacitado para te ajudar com os seguintes temas técnicos:</p>"
+        "<ul>"
+        "<li>🌐 <b>Fundamentos de TCP/IP e Conectividade</b></li>"
+        "<li>🛠️ <b>Ferramentas de Troubleshooting (Ping, Traceroute, Telnet)</b></li>"
+        "<li>🔀 <b>Roteamento Avançado e OSPF</b></li>"
+        "<li>🛡️ <b>Protocolos de Redundância (HSRP)</b></li>"
+        "</ul>"
+        "<p><i>Por favor, reformule sua pergunta focando em um destes tópicos de infraestrutura!</i></p>"
+    )
 
 
 def contextualizar_pergunta(pergunta: str, historico: list = None) -> str:
