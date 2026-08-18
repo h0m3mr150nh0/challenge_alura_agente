@@ -36,13 +36,13 @@ vectorstore = FAISS.load_local(
     embeddings,
     allow_dangerous_deserialization=True
 )
-faiss_retriever = vectorstore.as_retriever(search_kwargs={"k": 4})
+faiss_retriever = vectorstore.as_retriever(search_kwargs={"k": 8})
 
 # 🔀 Inicializa o BM25 aproveitando os documentos já salvos no FAISS
 try:
     docs_no_faiss = list(vectorstore.docstore._dict.values())
     bm25_retriever = BM25Retriever.from_documents(docs_no_faiss)
-    bm25_retriever.k = 3
+    bm25_retriever.k = 5
     
     # Cria a Busca Híbrida (50% semântico / 50% palavra-chave exata)
     ensemble_retriever = EnsembleRetriever(
@@ -196,6 +196,7 @@ REGRAS OBRIGATÓRIAS:
 2. Não utilize conhecimento prévio que não esteja contido no contexto fornecido.
 3. Não invente comandos, parâmetros, exemplos, causas, procedimentos ou informações que não estejam no contexto.
 4. Priorize as informações diretamente relacionadas à pergunta e ignore informações do contexto que não sejam necessárias para respondê-la.
+5. Formate TODOS os comandos de CLI, scripts ou logs utilizando blocos de código Markdown (usando crases ` ou ```), para destacá-los visualmente.
 
 CONTEXTO:
 {contexto}

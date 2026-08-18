@@ -24,8 +24,9 @@ print(f"\n📚 Total de páginas carregadas: {len(all_docs)}")
 
 # dividir em chunks
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=700,
-    chunk_overlap=100
+    chunk_size=1200,
+    chunk_overlap=250,
+    separators=["\n\n", "\n", " ", ""]
 )
 
 chunks = text_splitter.split_documents(all_docs)
