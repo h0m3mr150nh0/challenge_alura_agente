@@ -109,7 +109,7 @@ def contextualizar_pergunta(pergunta: str, historico: list = None) -> str:
 Dada a conversa abaixo e a última pergunta do usuário, reescreva a pergunta para que ela seja AUTÔNOMA e COMPLETA.
 
 REGRAS ESTRITAS:
-1. Se a pergunta usar pronomes como 'deles', 'dele', 'desses', 'esse comando', substitua-os explicitamente pelo sujeito técnico exato da mensagem anterior (neste caso, vizinhos OSPF ou roteadores vizinhos).
+1. Identifique pronomes (ele, ela, isso, dele, esse comando) ou referências ocultas na última pergunta e substitua-os pelo sujeito técnico exato (protocolo, ferramenta ou conceito) discutido nas mensagens anteriores.
 2. Se a pergunta for um novo conceito independente ou mudar de assunto, mantenha-a como foi enviada.
 3. Retorne APENAS a pergunta reescrita em uma única linha, sem explicações.
 
