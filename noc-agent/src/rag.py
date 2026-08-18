@@ -202,7 +202,7 @@ CONTEXTO:
 {contexto}
 
 PERGUNTA:
-{pergunta}
+{pergunta_processada}
 """
 
     # 🛡️ 4. Chamada da API com nomes de modelos válidos
