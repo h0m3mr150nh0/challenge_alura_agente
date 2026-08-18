@@ -1,6 +1,7 @@
 import os
 import re
 import logging
+import unicodedata
 from dotenv import load_dotenv
 from google import genai
 from google.genai.errors import APIError
@@ -54,6 +55,10 @@ except Exception as e:
     logger.error("Erro ao inicializar Busca Híbrida: %s", e)
     ensemble_retriever = faiss_retriever  # Fallback de segurança
 
+def normalizar_texto(texto: str) -> str:
+    """Remove acentos e padroniza o texto para minúsculas para o modelo de ML."""
+    nfkd = unicodedata.normalize('NFKD', texto)
+    return "".join([c for c in nfkd if not unicodedata.combining(c)]).lower()
 
 def limpar_query_busca(pergunta: str) -> str:
     padroes = [
@@ -81,7 +86,9 @@ def limpar_query_busca(pergunta: str) -> str:
 def validar_escopo_local(pergunta: str) -> bool:
     """Valida se a pergunta pertence ao escopo NOC usando o modelo de ML."""
     if classifier_escopo is not None:
-        predicao = classifier_escopo.predict([pergunta])[0]
+        # Aplica a normalização antes da predição
+        pergunta_limpa = normalizar_texto(pergunta)
+        predicao = classifier_escopo.predict([pergunta_limpa])[0]
         return bool(predicao == 1)
     return True
 

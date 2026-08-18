@@ -1,18 +1,23 @@
 import os
 import joblib
+import unicodedata
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
 
-# Caminho onde o modelo treinado será salvo
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "modelo_escopo.joblib")
 
-# Dataset de treino: (Texto, Classe) -> 1: Dentro do Escopo NOC | 0: Fora do Escopo
+# Função auxiliar para remover acentos e padronizar o texto
+def normalizar_texto(texto):
+    nfkd = unicodedata.normalize('NFKD', texto)
+    return "".join([c for c in nfkd if not unicodedata.combining(c)]).lower()
+
+# Dataset expandido para maior robustez no NOC
 dados_treino = [
-    # 🟢 DENTRO DO ESCOPO (NOC / OSPF / TCP-IP / HSRP / Diagnóstico)
+    # 🟢 DENTRO DO ESCOPO (NOC / OSPF / TCP-IP / HSRP / Diagnóstico / Redes)
     ("o que e ospf?", 1),
     ("como ver a tabela de roteamento?", 1),
-    ("não consigo acessar o servidor", 1),
+    ("nao consigo acessar o servidor", 1),
     ("ping respondendo mas sem web", 1),
     ("qual o comando para ver os vizinhos do ospf?", 1),
     ("problema de conectividade ip na interface", 1),
@@ -30,6 +35,13 @@ dados_treino = [
     ("mostrar rotas aprendidas pelo bgp e ospf", 1),
     ("falha de adjacencia no roteador cisco", 1),
     ("como usar o traceroute para rastrear a rota?", 1),
+    ("porta do switch caiu", 1),
+    ("interface serial com erro de crc", 1),
+    ("latencia alta na conexao", 1),
+    ("como configurar rota estatica", 1),
+    ("problema de mtu no enlace", 1),
+    ("o traceroute esta dando timeout", 1),
+    ("como ver as estatisticas da interface", 1),
 
     # 🔴 FORA DO ESCOPO (Geral / Outros assuntos)
     ("qual a receita de bolo de cenoura?", 0),
@@ -44,23 +56,27 @@ dados_treino = [
     ("me ajude a resolver essa conta de matematica", 0),
     ("como instalar o windows 11 no pc?", 0),
     ("qual a capital da frança?", 0),
+    ("qual a escalacao do flamengo", 0),
+    ("me indique uma receita de lasanha", 0),
+    ("qual a previsao do tempo para o fim de semana", 0),
+    ("como trocar a pelicula do celular", 0),
+    ("qual o melhor carro eletrico do mercado", 0),
 ]
 
 def treinar_e_salvar_modelo():
-    X, y = zip(*dados_treino)
+    # Normaliza todos os textos de treino para evitar problemas com acentos
+    X_raw, y = zip(*dados_treino)
+    X = [normalizar_texto(texto) for texto in X_raw]
     
-    # Criando o Pipeline: Vetorização TF-IDF + Classificador Naive Bayes
+    # Pipeline com ngramas (1, 2) e MultinomialNB
     modelo = make_pipeline(
-        TfidfVectorizer(ngram_range=(1, 2), lowercase=True),
+        TfidfVectorizer(ngram_range=(1, 2)),
         MultinomialNB(alpha=0.1)
     )
     
-    # Treinamento
     modelo.fit(X, y)
-    
-    # Salvando em arquivo binário
     joblib.dump(modelo, MODEL_PATH)
-    print(f"✅ Modelo de Machine Learning treinado e salvo com sucesso em: {MODEL_PATH}")
+    print(f"✅ Modelo de Machine Learning otimizado e salvo em: {MODEL_PATH}")
 
 if __name__ == "__main__":
     treinar_e_salvar_modelo()
