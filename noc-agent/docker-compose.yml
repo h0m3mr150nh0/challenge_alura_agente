@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: noc_agent_app
+    restart: always
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - .:/app
+
+  vector_db:
+    image: chromadb/chroma:latest
+    container_name: noc_vector_db
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+
+volumes:
+  chroma_data:

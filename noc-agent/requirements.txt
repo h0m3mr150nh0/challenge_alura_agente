@@ -1,0 +1,16 @@
+streamlit
+markdown
+gender-guesser
+python-dotenv
+langchain
+langchain-community
+langchain-text-splitters
+faiss-cpu
+langchain-huggingface
+sentence-transformers
+google-genai
+scikit-learn
+joblib
+rank_bm25
+langchain-classic
+pypdf

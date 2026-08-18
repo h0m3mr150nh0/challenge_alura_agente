@@ -1,0 +1,3 @@
+[server]
+fileWatcherType = "none"
+folderWatchBlacklist = ["*\\site-packages\\transformers\\*", "*/site-packages/transformers/*"]
