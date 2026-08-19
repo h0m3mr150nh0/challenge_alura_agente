@@ -160,6 +160,18 @@ Para facilitar a validação da aplicação e os testes de login, os seguintes u
 
 ---
 
+## 🔐 Perfil e Privilégios do Administrador NOC
+
+Usuários autenticados com o perfil de **Administrador NOC** possuem acesso a recursos de gerenciamento global e controle de usuários diretamente na interface da aplicação:
+
+| Seção / Funcionalidade | Descrição do Privilégio |
+| :--- | :--- |
+| **Cadastrar Novo Operator** | Permite registrar novos operadores no sistema de autenticação. |
+| **Painel Administrativo: Apagar TUDO (Global)** | Função de limpeza global para resetar dados ou o histórico completo do sistema. |
+| **Painel Administrativo: Gerenciar Conversas (Admin)** | Acesso administrativo para monitorar, inspecionar ou gerenciar as conversas realizadas na plataforma. |
+
+---
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Para mais detalhes, consulte o arquivo `LICENSE`.
