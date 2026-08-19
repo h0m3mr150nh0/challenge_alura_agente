@@ -141,21 +141,36 @@ python seed_users.py
 
 O agente aceita dúvidas operacionais, troubleshooting de conectividade e comandos técnicos Cisco IOS baseados exclusivamente na base CCNA.
 
-### Exemplos de Perguntas Suportadas:
+---
 
-* **Sintaxe & Comandos CLI:** *"Como o switch toma a decisão de encaminhamento de um quadro unicast desconhecido (Unknown Unicast)?"*, *"Qual o comando para ver os vizinhos OSPF?"*
+## 💡 Exemplos de Perguntas e Respostas
 
+Abaixo estão exemplos reais de interações com o agente, demonstrando a assertividade técnica com base no guia CCNA, a precisão em cálculos matemáticos de redes e a atuação do filtro de escopo (*Guardrail*):
 
-* **Troubleshooting de Interfaces:** *"Quais comandos usar para diagnosticar um erro de Duplex Mismatch na interface?"*
+### 1. Pergunta Técnica (Switching e STP)
+* **Usuário:** *"Oi, o switch aqui da rede tá com um loop estranho. Como é que o spanning tree descobre qual é o root bridge da rede?"*
+* **NetOps Gleen:** A topologia lógica sem loops do Spanning Tree Protocol começa com a eleição de um único switch central, o Root Bridge. 
+  * **Início da Eleição:** Todos os switches ligam-se alegando serem o Root e enviam BPDUs com o seu próprio Bridge ID (BID).
+  * **Critério de Vitória:** O switch com o menor Bridge ID (numericamente) vence a eleição. A comparação começa pela prioridade (padrão 32.768) e, em caso de empate, utiliza o menor endereço MAC.
+  *(Fonte: `CCNA_200-301_BASE.pdf`)*
 
-* **Roteamento & OSPF:** *"Como verificar se um roteador OSPF assumiu o papel de DR ou BDR em um segmento broadcast?"*
+### 2. Pergunta Técnica (Protocolo OSPFv2)
+* **Usuário:** *"Meu roteador principal perdeu o contato com o vizinho OSPF. Quais parâmetros exatos têm que coincidir para formar essa adjacência?"*
+* **NetOps Gleen:** Para que dois roteadores OSPF se tornem vizinhos e troquem LSAs, os seguintes parâmetros nas mensagens Hello devem coincidir exatamente: mesma sub-rede, mesma área, timers compatíveis (Hello e Dead), Router IDs únicos, autenticação (se configurada) e valores de MTU compatíveis.
+  *(Fonte: `CCNA_200-301_BASE.pdf`)*
 
-* **Perguntas Sequenciais (Com Memória):**
-1. *"Quais são os estados de formação de vizinhança do OSPF?"*
+### 3. Pergunta Técnica (Cálculo de Sub-rede / Subnetting)
+* **Usuário:** *"Calcule a rede do endereço IP 172.16.32.86/25"*
+* **NetOps Gleen:** Para calcular a sub-rede do endereço IP 172.16.32.86 com a máscara /25 (255.255.255.128), analise o quarto octeto, onde a máscara possui bits mistos.
+  * O prefixo /25 indica que os primeiros 25 bits são de rede, deixando 7 bits para hosts. No quarto octeto, a representação binária da máscara 128 é 10000000, o que significa que o bloco de incremento (número mágico) é 128.
+  * **Subnet ID:** Analisando o quarto octeto (86), o maior múltiplo do número mágico (128) menor ou igual a 86 é 0. Portanto, o Subnet ID é `172.16.32.0`.
+  * **Broadcast:** O endereço de broadcast calculado para esta sub-rede é `172.16.32.127`.
+  * **Hosts Usáveis:** O intervalo de hosts válidos situa-se entre `172.16.32.1` e `172.16.32.126`.
+  *(Fonte: `CCNA_200-301_BASE.pdf`)*
 
-2. *"E qual o comando para ver a lista deles no equipamento?"*
-
-
+### 4. Pergunta Fora do Escopo (Atuação do Guardrail)
+* **Usuário:** *"Boa noite, você pode me ajudar a configurar uma regra de firewall complexa para bloquear portas e também me indicar uma receita de lasanha?"*
+* **NetOps Gleen:** ⚠️ **Assunto fora do escopo de atendimento.** O sistema identifica que a pergunta extrapola o escopo de Diagnóstico de Redes NOC, bloqueando o conteúdo e apresentando a lista de tópicos suportados (Fundamentos TCP/IP, Switching/STP, Roteamento/OSPF e Ferramentas de Diagnóstico CLI).
 
 ---
 
