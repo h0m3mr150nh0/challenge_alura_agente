@@ -133,7 +133,7 @@ Para executar o utilitário, utilize o comando:
 python seed_users.py
 ```
 
-![Interface de Gerenciamento de Usuários](./noc-agent/assets/Ferramenta_Povoar_DB.png)
+![Interface de Gerenciamento de Usuários](./noc-agent/assets/Ferramenta_Povoar_BD.png)
 
 ---
 
