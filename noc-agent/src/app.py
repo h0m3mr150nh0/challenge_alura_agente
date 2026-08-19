@@ -132,7 +132,7 @@ if "messages" not in st.session_state:
 # TELA DE AUTENTICAÇÃO (SOMENTE LOGIN)
 # -----------------------------------------------------------------------------
 if st.session_state.usuario_logado is None:
-    st.title("🔐 NOC Agent - Acesso Restrito")
+    st.title("🔐 NetOps Gleen: NOC Agent - Acesso Restrito")
     
     st.subheader("Login de Operador")
     user_input = st.text_input("Usuário", key="login_user")
@@ -248,20 +248,21 @@ with st.sidebar:
 # -----------------------------------------------------------------------------
 # INTERFACE PRINCIPAL DE CHAT
 # -----------------------------------------------------------------------------
-st.title("💬 NOC Troubleshooting Agent")
+st.title("💬 NetOps Gleen: NOC Agent")
 
 # Mensagem inicial de boas-vindas para nova conversa
 if not st.session_state.messages:
     mensagem_inicial = (
-        f"👋 Olá, <b>{user_atual['nome_completo']}</b>! Sou o Gleen, seu assistente virtual de NOC. 🤖<br><br>"
+        f"👋 Olá, <b>{user_atual['nome_completo']}</b>! Sou o NetOps Gleen, seu assistente virtual de NOC. 🤖<br><br>"
         "<i>Aviso: Este sistema é um projeto desenvolvido para fins de estudo e pesquisa.</i><br><br>"
         "Meu escopo de atendimento é focado exclusivamente em <b>Diagnóstico e Troubleshooting de Redes</b>. "
         "Estou pronto para te ajudar com dúvidas e análises sobre:<br>"
         "<ul>"
-        "<li><b>Conectividade IP e TCP/IP</b></li>"
-        "<li><b>Roteamento (OSPF, Rotas Estáticas)</b></li>"
-        "<li><b>Protocolos de Redundância (HSRP)</b></li>"
-        "<li><b>Ferramentas de Diagnóstico (Ping, Traceroute, Telnet, Debugs)</b></li>"
+        "<li><b>Fundamentos TCP/IP e Endereçamento IPv4 / Subnetting</b></li>"
+        "<li><b>Switching, VLANs, Trunking (802.1Q) e DTP</b></li>"
+        "<li><b>Spanning Tree Protocol (STP / RSTP) e EtherChannel</b></li>"
+        "<li><b>Roteamento Estático e OSPFv2</b></li>"
+        "<li><b>Ferramentas de Diagnóstico (Ping, Traceroute, Telnet, SSH, Debugs)</b></li>"
         "</ul>"
         "Como posso ajudar na sua operação hoje?"
     )

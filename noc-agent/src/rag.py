@@ -99,10 +99,11 @@ def obter_mensagem_fora_escopo() -> str:
         "<p>Olá! Este sistema é um <b>projeto de estudo</b> e, por isso, tem um escopo de atuação estritamente focado em <b>Diagnóstico de Redes NOC</b>.</p>"
         "<p>Não consigo responder a essa pergunta, mas estou capacitado para te ajudar com os seguintes temas técnicos:</p>"
         "<ul>"
-        "<li>🌐 <b>Fundamentos de TCP/IP e Conectividade</b></li>"
-        "<li>🛠️ <b>Ferramentas de Troubleshooting (Ping, Traceroute, Telnet)</b></li>"
-        "<li>🔀 <b>Roteamento Avançado e OSPF</b></li>"
-        "<li>🛡️ <b>Protocolos de Redundância (HSRP)</b></li>"
+        "<li><b>Fundamentos TCP/IP e Endereçamento IPv4 / Subnetting</b></li>"
+        "<li><b>Switching, VLANs, Trunking (802.1Q) e DTP</b></li>"
+        "<li><b>Spanning Tree Protocol (STP / RSTP) e EtherChannel</b></li>"
+        "<li><b>Roteamento Estático e OSPFv2</b></li>"
+        "<li><b>Ferramentas de Diagnóstico (Ping, Traceroute, Telnet, SSH, Debugs)</b></li>"
         "</ul>"
         "<p><i>Por favor, reformule sua pergunta focando em um destes tópicos de infraestrutura!</i></p>"
     )
@@ -207,7 +208,6 @@ REGRAS DE COMPORTAMENTO:
 - Não omita sintaxe ou exemplos diretamente relacionados à pergunta apenas para tornar a resposta mais curta.
 - Se o usuário pedir exemplos, responda APENAS com exemplos diretamente relacionados ao tópico ou comando específico perguntado na mensagem anterior (ex: se perguntou sobre traceroute, dê exemplos APENAS de traceroute).
 - Descarte informações do contexto recuperado que tratem de outras ferramentas ou assuntos não citados pelo usuário.
-- NÃO inclua saudações nem apresentações.
 
 EXCEÇÕES DE ESCOPO PERMITIDAS: Pedidos de exemplos de saída, logs, sintaxes, comandos de CLI ou resultados de ferramentas de diagnóstico (como Ping, Traceroute, comandos de OSPF e tabelas de roteamento) relativas a redes de computadores SÃO PERMITIDOS e devem ser respondidos utilizando o contexto, mesmo que o usuário peça apenas "um exemplo" ou "como aparece na tela". Nunca bloqueie solicitações de exemplos de comandos suportados.
 
@@ -218,7 +218,6 @@ REGRAS OBRIGATÓRIAS:
 2. Não utilize conhecimento prévio que não esteja contido no contexto fornecido.
 3. Não invente comandos, parâmetros, exemplos, causas, procedimentos ou informações que não estejam no contexto.
 4. Priorize as informações diretamente relacionadas à pergunta e ignore informações do contexto que não sejam necessárias para respondê-la.
-5. Formate TODOS os comandos de CLI, scripts ou logs utilizando blocos de código Markdown (usando crases ` ou ```), para destacá-los visualmente.
 
 REGRAS DE FORMATAÇÃO E ESTILO:
 1. Responda DIRETAMENTE à pergunta do usuário, assumindo a postura de um Especialista de NOC.
@@ -246,7 +245,7 @@ PERGUNTA:
                 contents=prompt,
                 config=genai.types.GenerateContentConfig(
                     system_instruction=(
-                        "Você é o Gleen, assistente técnico do NOC. Seja direto, técnico e conciso. "
+                        "Você é o NetOps Gleen, assistente técnico do NOC. Seja direto, técnico e conciso. "
                         "NUNCA use saudações nem se apresente no início da resposta. Responda diretamente ao usuário."
                     ),
                     temperature=0.2,

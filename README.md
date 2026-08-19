@@ -1,6 +1,7 @@
-# 🤖 NOC Troubleshooting Agent (Gleen) — RAG Avançado com Busca Híbrida
+```markdown
+# 🤖 NetOps Gleen: NOC Troubleshooting Agent — RAG Avançado com Busca Híbrida
 
-O **NOC Troubleshooting Agent (Gleen)** é um assistente virtual baseado em **RAG (Retrieval-Augmented Generation)** projetado para auxiliar analistas de operações de rede (NOC) no diagnóstico rápido e assertivo de problemas em infraestruturas **TCP/IP e roteamento Cisco IOS (OSPF, HSRP, Camada 3)**.
+O **NetOps Gleen: NOC Troubleshooting Agent** é um assistente virtual baseado em **RAG (Retrieval-Augmented Generation)** projetado para auxiliar analistas de operações de rede (NOC)[cite: 7] no diagnóstico rápido e assertivo de problemas em infraestruturas **TCP/IP, Switching (VLANs/STP) e Roteamento Cisco IOS (OSPFv2, HSRP, Camada 3)**[cite: 7].
 
 ---
 
@@ -41,14 +42,12 @@ O agente combina **Machine Learning Supervisionado** na camada de segurança com
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Base de Conhecimento (Knowledge Base)
 
-* **Linguagem:** Python 3.10+
-* **Interface:** Streamlit
-* **Machine Learning / Guardrail:** `scikit-learn`, `joblib`
-* **Orquestração RAG & Retrievers:** `langchain`, `langchain-community`, `langchain-text-splitters`, `langchain-classic`, `rank_bm25`
-* **Vector Store & Embeddings:** FAISS (`faiss-cpu`), `sentence-transformers` (`all-MiniLM-L6-v2` via `HuggingFaceEmbeddings`)
-* **LLM Engine:** Google Gemini SDK (`google-genai`) — `gemini-3.5-flash-lite` / `gemini-2.5-flash`
+O **NetOps Gleen** utiliza exclusivamente o guia oficial **CCNA 200-301**.
+
+* **Manutenção:** Para atualizar a base, substitua o arquivo `CCNA_200-301_BASE.pdf` na pasta `knowledge/` e execute o script de ingestão.
+* **Importante:** Sempre que atualizar a base, delete a pasta `vectorstore` existente antes de rodar o `ingest.py` para garantir a consistência dos dados indexados.
 
 ---
 
@@ -106,10 +105,14 @@ python src/train_classifier.py
 
 ```
 
-### 6. Iniciar a Aplicação
+### 6. Execução (Docker / Local)
 
 ```bash
-streamlit run src/app.py
+# Iniciar o ambiente via Docker
+docker-compose up --build
+
+# Para atualizar a base via container em produção:
+docker exec -it noc_agent_app python3 src/ingest.py
 
 ```
 
@@ -117,18 +120,23 @@ streamlit run src/app.py
 
 ## 💡 Guia de Uso
 
-O agente aceita dúvidas operacionais, troubleshooting de conectividade e comandos técnicos Cisco IOS/TCP-IP.
+O agente aceita dúvidas operacionais, troubleshooting de conectividade e comandos técnicos Cisco IOS baseados exclusivamente na base CCNA.
 
 ### Exemplos de Perguntas Suportadas:
 
-* **Sintaxe & Comandos CLI:** *"Como vejo a tabela de rotas do roteador?"*, *"Qual o comando para ver os vizinhos OSPF?"*
-* **Troubleshooting L3 / L7:** *"O ping responde mas não consigo acessar o serviço na porta 80. Como isolar?"*
-* **Análise Física / Interface:** *"Meus pacotes estão caindo na interface serial, como checar os contadores de erro?"*
+* **Sintaxe & Comandos CLI:** *"Como o switch toma a decisão de encaminhamento de um quadro unicast desconhecido (Unknown Unicast)?"*, *"Qual o comando para ver os vizinhos OSPF?"*
+
+
+* **Troubleshooting de Interfaces:** *"Quais comandos usar para diagnosticar um erro de Duplex Mismatch na interface?"*
+
+* **Roteamento & OSPF:** *"Como verificar se um roteador OSPF assumiu o papel de DR ou BDR em um segmento broadcast?"*
+
 * **Perguntas Sequenciais (Com Memória):**
 1. *"Quais são os estados de formação de vizinhança do OSPF?"*
+
 2. *"E qual o comando para ver a lista deles no equipamento?"*
 
-Aqui está a seção formatada em **Tabela Markdown** para você copiar e colar diretamente no seu `README.md` (pode adicionar no final, sob uma seção de suporte/testes).
+
 
 ---
 
@@ -151,10 +159,12 @@ Para facilitar a validação da aplicação e os testes de login, os seguintes u
 
 > **Nota:** Todos os usuários de testes locais utilizam a senha padrão `123456`.
 
-
-
 ---
 
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Para mais detalhes, consulte o arquivo `LICENSE`.
+
+```
+
+```
