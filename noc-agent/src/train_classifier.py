@@ -12,9 +12,9 @@ def normalizar_texto(texto):
     nfkd = unicodedata.normalize('NFKD', texto)
     return "".join([c for c in nfkd if not unicodedata.combining(c)]).lower()
 
-# Dataset expandido para maior robustez no NOC
+# Dataset expandido para maior robustez no NOC e cobertura completa do CCNA
 dados_treino = [
-    # 🟢 DENTRO DO ESCOPO (NOC / OSPF / TCP-IP / HSRP / Diagnóstico / Redes)
+    # 🟢 DENTRO DO ESCOPO (NOC / OSPF / TCP-IP / HSRP / Switching / STP / Subnetting / Diagnóstico)
     ("o que e ospf?", 1),
     ("como ver a tabela de roteamento?", 1),
     ("nao consigo acessar o servidor", 1),
@@ -42,6 +42,23 @@ dados_treino = [
     ("problema de mtu no enlace", 1),
     ("o traceroute esta dando timeout", 1),
     ("como ver as estatisticas da interface", 1),
+    
+    # Adições essenciais: Switching, STP, Root Bridge e Subnetting (CCNA 200-301)
+    ("como o algoritmo do spanning tree elege o root bridge de uma rede?", 1),
+    ("root bridge", 1),
+    ("spanning tree protocol", 1),
+    ("como o switch toma a decisão de encaminhamento de um quadro unicast desconhecido", 1),
+    ("unknown unicast", 1),
+    ("qual o comando para ver a tabela mac do switch", 1),
+    ("como configurar portas de acesso e troncos vlan", 1),
+    ("o que e encapsulamento 802.1q", 1),
+    ("como diagnosticar erro de duplex mismatch na interface", 1),
+    ("quais contadores de erro indicam colisões tardias", 1),
+    ("como calcular o subnet id e o broadcast de um ip", 1),
+    ("qual a formula para calcular o numero de hosts usaveis", 1),
+    ("como funcionam as rotas estáticas e o default gateway", 1),
+    ("quais os estados de vizinhança do ospf", 1),
+    ("como configurar o roteamento inter-vlan com router-on-a-stick", 1),
 
     # 🔴 FORA DO ESCOPO (Geral / Outros assuntos)
     ("qual a receita de bolo de cenoura?", 0),
