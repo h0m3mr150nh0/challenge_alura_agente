@@ -167,3 +167,32 @@ def listar_todas_sessoes_com_usuario():
             ORDER BY sessoes_chat.id DESC
         """)
         return [dict(row) for row in cursor.fetchall()]
+
+def listar_usuarios():
+    """Retorna todos os usuários cadastrados no banco."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, nome_completo, is_admin FROM usuarios ORDER BY id ASC")
+        return [dict(row) for row in cursor.fetchall()]
+
+def deletar_usuario(username):
+    """Remove um usuário do banco de dados pelo username."""
+    username = username.strip().lower()
+    try:
+        with get_connection() as conn:
+            cursor = conn.cursor()
+            
+            # Verifica se o usuário existe antes de deletar
+            cursor.execute("SELECT * FROM usuarios WHERE username = ?", (username,))
+            usuario = cursor.fetchone()
+            
+            if not usuario:
+                return False, f"Usuário '{username}' não encontrado no banco de dados."
+                
+            # Executa a exclusão
+            cursor.execute("DELETE FROM usuarios WHERE username = ?", (username,))
+            conn.commit()
+            
+            return True, f"Usuário '{username}' removido com sucesso!"
+    except Exception as e:
+        return False, f"Erro ao excluir o usuário: {str(e)}"

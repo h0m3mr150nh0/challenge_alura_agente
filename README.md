@@ -114,6 +114,26 @@ docker-compose up --build
 docker exec -it noc_agent_app python3 src/ingest.py
 
 ```
+---
+
+## 🛠️ Gerenciamento e Povoamento do Banco de Dados
+
+Para facilitar os testes de integração e a homologação do sistema em diferentes ambientes, foi desenvolvido um script utilitário de gerenciamento de usuários. Este script automatiza a inicialização do banco de dados, o cadastro de contas de teste e a remoção de usuários de forma interativa.
+
+### Funcionalidades da Ferramenta de Povoamento
+A ferramenta (`seed_users.py`) oferece uma interface de linha de comando (CLI) intuitiva para operações administrativas:
+
+*   **Povoamento Automático:** Cria a estrutura de tabelas, cadastra o perfil administrador (`admin`) e gera uma base de operadores para testes de carga e validação funcional.
+*   **Gestão de Exclusão:** Lista todos os usuários cadastrados e permite a remoção seletiva, garantindo a limpeza do ambiente após os testes.
+*   **Interface Interativa:** Menu centralizado que reduz o erro operacional na manipulação dos dados.
+
+#### Execução da Ferramenta
+Para executar o utilitário, utilize o comando:
+```bash
+python seed_users.py
+```
+
+![Interface de Gerenciamento de Usuários](./noc-agent/assets/Ferramenta_Povoar_DB.png)
 
 ---
 
