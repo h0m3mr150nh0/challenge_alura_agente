@@ -1,20 +1,12 @@
 import gender_guesser.detector as gender
 import markdown
 import streamlit as st
+import database as db
 
-from database import (
-    autenticar_usuario,
-    cadastrar_usuario,
-    carregar_mensagens_sessao,
-    criar_sessao,
-    init_db,
-    listar_sessoes_usuario,
-    salvar_mensagem,
-)
 from rag import responder_pergunta
 
 # 📌 Inicializa o banco de dados
-init_db()
+db.init_db()
 
 st.set_page_config(page_title="NOC Agent", layout="centered")
 
@@ -147,7 +139,7 @@ if st.session_state.usuario_logado is None:
     pass_input = st.text_input("Senha", type="password", key="login_pass")
 
     if st.button("Entrar", type="primary"):
-        user = autenticar_usuario(user_input, pass_input)
+        user = db.autenticar_usuario(user_input, pass_input)
         if user:
             st.session_state.usuario_logado = user
             st.session_state.messages = []
@@ -169,15 +161,23 @@ avatar_user = AVATAR_MASCULINO if user_atual["genero"] == "Masculino" else AVATA
 with st.sidebar:
     st.image(avatar_user, width=64)
     st.markdown(f"### **{user_atual['nome_completo']}**")
-    
+
     if user_atual.get("is_admin"):
-        st.badge("🛡️ Administrador")
+        st.markdown("🛡️ **Administrador**")
     else:
         st.caption(f"Operador @{user_atual['username']}")
 
     if st.button("➕ Nova Conversa", use_container_width=True, type="primary"):
         st.session_state.sessao_id_atual = None
         st.session_state.messages = []
+        st.rerun()
+
+    # 🗑️ GERENCIAMENTO DE HISTÓRICO DO PRÓPRIO USUÁRIO
+    if st.button("🗑️ Limpar Meu Histórico", use_container_width=True):
+        db.limpar_historico_usuario(user_atual["id"])
+        st.session_state.sessao_id_atual = None
+        st.session_state.messages = []
+        st.success("Seu histórico foi limpo!")
         st.rerun()
 
     # 🔑 PAINEL EXCLUSIVO DO ADMINISTRADOR
@@ -187,11 +187,11 @@ with st.sidebar:
             novo_nome = st.text_input("Nome Completo", key="adm_nome")
             novo_user = st.text_input("Usuário Login", key="adm_user")
             nova_pass = st.text_input("Senha", type="password", key="adm_pass")
-            
+
             if st.button("Cadastrar Usuário", key="btn_cadastrar_admin"):
                 if novo_nome and novo_user and nova_pass:
                     genero_detectado = inferir_genero(novo_nome)
-                    sucesso, msg = cadastrar_usuario(novo_user, nova_pass, novo_nome, genero_detectado)
+                    sucesso, msg = db.cadastrar_usuario(novo_user, nova_pass, novo_nome, genero_detectado)
                     if sucesso:
                         st.success(msg)
                     else:
@@ -199,15 +199,42 @@ with st.sidebar:
                 else:
                     st.warning("Preencha todos os campos.")
 
+        st.divider()
+        st.markdown("🛡️ **Painel Administrativo**")
+        
+        # Botão para apagar todo o histórico global do sistema
+        if st.button("⚠️ Apagar TUDO (Global)", use_container_width=True, type="secondary"):
+            db.limpar_historico_geral()
+            st.session_state.sessao_id_atual = None
+            st.session_state.messages = []
+            st.warning("Todo o histórico global foi apagado!")
+            st.rerun()
+
+        # Gerenciamento individual de conversas por usuário
+        with st.expander("💬 Gerenciar Conversas (Admin)"):
+            todas_sessoes = db.listar_todas_sessoes_com_usuario() if hasattr(db, 'listar_todas_sessoes_com_usuario') else []
+            
+            if not todas_sessoes:
+                st.info("Nenhuma conversa no sistema.")
+            else:
+                for s in todas_sessoes:
+                    col1, col2 = st.columns([3, 1])
+                    with col1:
+                        st.caption(f"**{s['username']}**: {s['titulo'][:15]}...")
+                    with col2:
+                        if st.button("❌", key=f"del_adm_sess_{s['id']}"):
+                            db.deletar_conversa_usuario(s['id'])
+                            st.rerun()
+
     st.divider()
     st.markdown("📜 **Histórico de Conversas**")
 
-    sessoes = listar_sessoes_usuario(user_atual["id"])
+    sessoes = db.listar_sessoes_usuario(user_atual["id"])
     for s in sessoes:
         label = f"💬 {s['titulo'][:22]}..." if len(s['titulo']) > 22 else f"💬 {s['titulo']}"
         if st.button(label, key=f"sess_{s['id']}", use_container_width=True):
             st.session_state.sessao_id_atual = s["id"]
-            msges = carregar_mensagens_sessao(s["id"])
+            msges = db.carregar_mensagens_sessao(s["id"])
             st.session_state.messages = msges
             st.rerun()
 
@@ -217,7 +244,6 @@ with st.sidebar:
         st.session_state.sessao_id_atual = None
         st.session_state.messages = []
         st.rerun()
-
 
 # -----------------------------------------------------------------------------
 # INTERFACE PRINCIPAL DE CHAT
@@ -261,16 +287,16 @@ if prompt_user := st.chat_input("Digite sua pergunta de suporte..."):
 
   # Cria uma nova sessão no banco de dados na primeira pergunta
   if st.session_state.sessao_id_atual is None:
-    novo_id = criar_sessao(user_atual["id"], titulo=prompt_user)
+    novo_id = db.criar_sessao(user_atual["id"], titulo=prompt_user)
     st.session_state.sessao_id_atual = novo_id
     # Salva a mensagem inicial de boas-vindas do assistente
-    salvar_mensagem(
+    db.salvar_mensagem(
         novo_id, "assistant", st.session_state.messages[0]["content"]
     )
 
   # Adiciona e salva a pergunta do usuário
   st.session_state.messages.append({"role": "user", "content": prompt_user})
-  salvar_mensagem(st.session_state.sessao_id_atual, "user", prompt_user)
+  db.salvar_mensagem(st.session_state.sessao_id_atual, "user", prompt_user)
 
   user_html = f'<div class="msg-row user"><img src="{avatar_user}" class="avatar-img"><div class="user-msg">{prompt_user}</div></div>'
   st.markdown(user_html, unsafe_allow_html=True)
@@ -284,6 +310,6 @@ if prompt_user := st.chat_input("Digite sua pergunta de suporte..."):
 
   # Adiciona e salva a resposta da IA
   st.session_state.messages.append({"role": "assistant", "content": resposta})
-  salvar_mensagem(st.session_state.sessao_id_atual, "assistant", resposta)
+  db.salvar_mensagem(st.session_state.sessao_id_atual, "assistant", resposta)
 
   st.rerun()

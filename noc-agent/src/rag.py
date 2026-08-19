@@ -124,12 +124,12 @@ def contextualizar_pergunta(pergunta: str, historico: list = None) -> str:
     conversa_txt = "\n".join([f"{msg['role']}: {msg['content']}" for msg in mensagens_recentes])
 
     prompt_contexto = f"""
-Dada a conversa abaixo e a última pergunta do usuário, reescreva a pergunta para que ela seja AUTÔNOMA e COMPLETA.
+Dada a conversa abaixo e a última pergunta do usuário, reescreva a pergunta para que ela seja AUTÔNOMA e COMPLETA, substituindo quaisquer pronomes ou referências ocultas (como "dele", "desse", "comando", "exemplo disso") pelo termo técnico exato discutido anteriormente no histórico (ex: traceroute, ping, OSPF).
 
 REGRAS ESTRITAS:
-1. Identifique pronomes (ele, ela, isso, dele, esse comando) ou referências ocultas na última pergunta e substitua-os pelo sujeito técnico exato (protocolo, ferramenta ou conceito) discutido nas mensagens anteriores.
-2. Se a pergunta for um novo conceito independente ou mudar de assunto, mantenha-a como foi enviada.
-3. Retorne APENAS a pergunta reescrita em uma única linha, sem explicações.
+1. Identifique pronomes ou referências implícitas na última pergunta e substitua-os explicitamente pelo sujeito técnico correspondente da conversa anterior.
+2. Se a pergunta for um novo conceito independente ou mudar totalmente de assunto, mantenha-a como foi enviada.
+3. Retorne APENAS a pergunta reescrita em uma única linha, sem explicações, saudações ou formatações extras.
 
 CONVERSA ANTERIOR:
 {conversa_txt}
@@ -209,6 +209,10 @@ REGRAS DE COMPORTAMENTO:
 - Descarte informações do contexto recuperado que tratem de outras ferramentas ou assuntos não citados pelo usuário.
 - NÃO inclua saudações nem apresentações.
 
+EXCEÇÕES DE ESCOPO PERMITIDAS: Pedidos de exemplos de saída, logs, sintaxes, comandos de CLI ou resultados de ferramentas de diagnóstico (como Ping, Traceroute, comandos de OSPF e tabelas de roteamento) relativas a redes de computadores SÃO PERMITIDOS e devem ser respondidos utilizando o contexto, mesmo que o usuário peça apenas "um exemplo" ou "como aparece na tela". Nunca bloqueie solicitações de exemplos de comandos suportados.
+
+CONTINUIDADE DE CONTEXTO E EXEMPLOS: Se a pergunta do usuário for uma continuação direta da mensagem anterior (como "Me mostre um exemplo", "Como fica a saída" ou "Mostre o comando"), analise o histórico imediato da conversa. Se o tópico anterior tratar de uma ferramenta de rede suportada (como traceroute, ping ou OSPF), a pergunta É considerada dentro do escopo e você deve respondê-la utilizando o contexto.
+
 REGRAS OBRIGATÓRIAS:
 1. Conclua sempre o seu raciocínio. Nunca interrompa uma frase ou explicação no meio.
 2. Não utilize conhecimento prévio que não esteja contido no contexto fornecido.
@@ -218,11 +222,7 @@ REGRAS OBRIGATÓRIAS:
 
 REGRAS DE FORMATAÇÃO E ESTILO:
 1. Responda DIRETAMENTE à pergunta do usuário, assumindo a postura de um Especialista de NOC.
-2. NUNCA mencione os documentos fornecidos no corpo da sua resposta. 
-3. É ESTRITAMENTE PROIBIDO usar frases como "segundo o documento", "o guia de troubleshooting diz", "no contexto fornecido" ou citar o nome dos arquivos PDF. 
-4. A citação de fontes já é feita automaticamente pelo sistema no rodapé. Foque apenas em dar a resposta técnica de forma natural.
-5. NUNCA defina conceitos técnicos (como OSPF, TCP, Ping) dizendo que eles "servem para identificar e solucionar problemas". Descreva o que a tecnologia faz na rede, e não o objetivo do documento que a descreve.
-6. PROIBIÇÃO DE METADADOS DE TEXTO: NUNCA defina ou explique uma tecnologia, comando ou protocolo atribuindo a ele o objetivo de "servir como documento, guia ou manual de troubleshooting". Descreva estritamente a função técnica da ferramenta na rede, ignorando completamente as frases de introdução dos arquivos de origem.
+2. Formate TODOS os comandos de CLI ou logs utilizando blocos de código Markdown usando apenas as três crases (```), SEM adicionar nomes de linguagens como "text", "bash" ou "code" logo após as crases.
 
 CONTEXTO:
 {contexto}

@@ -121,3 +121,49 @@ def carregar_mensagens_sessao(session_id: int):
             (session_id,)
         )
         return [dict(row) for row in cursor.fetchall()]
+
+def limpar_historico_geral():
+    """Apaga todas as mensagens e sessões de chat, preservando os usuários cadastrados."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        # Como a tabela 'mensagens' tem chave estrangeira para 'sessoes_chat', 
+        # apagar as sessões em cascata ou limpar ambas limpa todo o histórico.
+        cursor.execute("DELETE FROM mensagens;")
+        cursor.execute("DELETE FROM sessoes_chat;")
+        conn.commit()
+
+def deletar_conversa_usuario(session_id: int):
+    """Apaga uma conversa específica e suas mensagens."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM mensagens WHERE session_id = ?", (session_id,))
+        cursor.execute("DELETE FROM sessoes_chat WHERE id = ?", (session_id,))
+        conn.commit()
+
+def limpar_historico_usuario(user_id: int):
+    """Apaga apenas as sessões e mensagens de um usuário específico, mantendo o usuário."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        # Busca todas as sessões do usuário
+        cursor.execute("SELECT id FROM sessoes_chat WHERE user_id = ?", (user_id,))
+        sessoes = [row["id"] for row in cursor.fetchall()]
+        
+        if sessoes:
+            # Deleta as mensagens dessas sessões
+            placeholders = ",".join("?" * len(sessoes))
+            cursor.execute(f"DELETE FROM mensagens WHERE session_id IN ({placeholders})", sessoes)
+            # Deleta as sessões
+            cursor.execute(f"DELETE FROM sessoes_chat WHERE id IN ({placeholders})", sessoes)
+            conn.commit()
+
+def listar_todas_sessoes_com_usuario():
+    """Retorna todas as sessões de chat do sistema junto com o username do dono."""
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("""
+            SELECT sessoes_chat.id, sessoes_chat.titulo, sessoes_chat.created_at, usuarios.username 
+            FROM sessoes_chat 
+            JOIN usuarios ON sessoes_chat.user_id = usuarios.id 
+            ORDER BY sessoes_chat.id DESC
+        """)
+        return [dict(row) for row in cursor.fetchall()]
