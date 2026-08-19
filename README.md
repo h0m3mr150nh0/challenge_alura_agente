@@ -123,7 +123,9 @@ O agente aceita dúvidas operacionais, troubleshooting de conectividade e comand
 
 ---
 
-## 💡 Abaixo estão exemplos reais de interações com o agente, demonstrando a assertividade técnica com base no guia CCNA, a precisão em cálculos matemáticos de redes e a atuação do filtro de escopo (*Guardrail*):
+## 💡 Exemplos de Perguntas e Respostas
+
+Abaixo estão exemplos reais de interações com o agente, demonstrando a assertividade técnica com base no guia CCNA, a precisão em cálculos matemáticos de redes e a atuação do filtro de escopo (*Guardrail*):
 
 ### 1. Pergunta Técnica (Switching e STP)
 * **Usuário:** *"Oi, o switch aqui da rede tá com um loop estranho. Como é que o spanning tree descobre qual é o root bridge da rede?"*
