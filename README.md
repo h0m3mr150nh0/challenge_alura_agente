@@ -25,7 +25,7 @@ O agente combina **Machine Learning Supervisionado** na camada de segurança com
            └──► FAISS Vector Store (Embeddings HuggingFace - Semântica)
            │
            ▼ (Top-K Chunks Relevantes)
-[ LLM Engine (Gemini 2.5 Flash / Flash Lite) ]
+[ LLM Engine (gemini-3.5-flash-lite/gemini-flash-latest/gemini-pro-latest) ]
            │
            ▼
 [ Resposta Técnica Concisa + Fontes Citadas ]
