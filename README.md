@@ -179,29 +179,29 @@ Abaixo estão as capturas de tela que comprovam o deploy funcional da aplicaçã
 ### 1. Autenticação e Perfil Administrativo
 | Página de Login | Painel e Privilégios do Administrador |
 | :---: | :---: |
-| ![Página inicial de Login](.noc-agent/assets/P%C3%ágina%20inicial%20de%20Login.png) | ![Perfil - Administrador](./assets/Perfil%20-%20Administrador.png) |
+| ![Página inicial de Login](./noc-agent/assets/Página_inicial_de_Login.png) | ![Perfil - Administrador](./noc-agent/assets/Perfil_Administrador.png) |
 
 ### 2. Cenários de Testes Técnicos (Base CCNA)
 | Switching & STP | Roteamento & Camada 3 |
 | :---: | :---: |
-| ![Switching e STP](.noc-agent/assets/Switching,%20Camada%202%20e%20Spanning%20Tree%20(STP).png) | ![Roteamento e IP Routing](./assets/Roteamento,%20Camada%203%20e%20Encaminhamento%20(IP%20Routing).png) |
+| ![Switching e STP](./noc-agent/assets/Switching_Camada_2_Spanning_Tree.png) | ![Roteamento e IP Routing](./noc-agent/assets/Roteamento_Camada_3_Encaminhamento.png) |
 
 | Protocolo OSPFv2 | Subnetting e IPv4 |
 | :---: | :---: |
-| ![Protocolo OSPFv2](.noc-agent/assets/Protocolo%20OSPFv2%20e%20Vizinhanças.png) | ![Subnetting](./assets/Subnetting%20e%20Endereçamento%20IPv4.png) |
+| ![Protocolo OSPFv2](./noc-agent/assets/Protocolo_OSPFv2_Vizinhanças.png) | ![Subnetting](./noc-agent/assets/Subnetting_Endereçamento_IPv4.png) |
 
 | Ferramentas de Diagnóstico (CLI) |
 | :---: |
-| ![Diagnóstico CLI](.noc-agent/assets/Ferramentas%20de%20Diagnóstico%20e%20Comandos%20CLI%20(Troubleshooting).png) |
+| ![Diagnóstico CLI](./noc-agent/assets/Ferramentas_de_Diagnostico_Comandos.png) |
 
 ### 3. Testes de Guardrail, Alucinação e Estresse
 | Fora do Escopo | Alucinação (Fora da Base) |
 | :---: | :---: |
-| ![Fora do Escopo](.noc-agent/assets/Testes%20de%20Fora%20do%20Escopo%20(Assuntos%20Irrelevantes).png) | ![Alucinação](./assets/Testes%20de%20Alucinação%20(Técnicos,%20mas%20fora%20da%20base%20CCNA).png) |
+| ![Fora do Escopo](./noc-agent/assets/Testes_de_Fora_do_Escopo.png) | ![Alucinação](./noc-agent/assets/Testes_de_Alucinacao.png) |
 
 | Estresse de Carga e Prompt Injection |
 | :---: |
-| ![Estresse de Carga](.noc-agent/assets/Estresse%20de%20Carga%20e%20Contexto%20Longo%20(Prompt%20Injection-Concorrência).png) |
+| ![Estresse de Carga](./noc-agent/assets/Estresse_de_Carga_e_Contexto_Longo.png) |
 
 ## 📄 Licença
 
