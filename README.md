@@ -1,6 +1,6 @@
 # 🤖 NetOps Gleen: NOC Troubleshooting Agent — RAG Avançado com Busca Híbrida
 
-O **NetOps Gleen: NOC Troubleshooting Agent** é um assistente virtual baseado em **RAG (Retrieval-Augmented Generation)** projetado para auxiliar analistas de operações de rede (NOC)[cite: 7] no diagnóstico rápido e assertivo de problemas em infraestruturas **TCP/IP, Switching (VLANs/STP) e Roteamento Cisco IOS (OSPFv2, HSRP, Camada 3)**[cite: 7].
+O **NetOps Gleen: NOC Troubleshooting Agent** é um assistente virtual baseado em **RAG (Retrieval-Augmented Generation)** projetado para auxiliar analistas de operações de rede (NOC) no diagnóstico rápido e assertivo de problemas em infraestruturas **TCP/IP, Switching (VLANs/STP) e Roteamento Cisco IOS (OSPFv2, HSRP, Camada 3)**.
 
 ---
 
